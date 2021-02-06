@@ -1,19 +1,23 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
-import { render, screen, fireEvent } from "@testing-library/react";
-import Todo from './Todo';
+import { getQueriesForElement } from "@testing-library/dom";
+import {render, fireEvent, waitFor, screen} from "@testing-library/react";
+import { toHaveStyle } from '@testing-library/jest-dom'
+import { App } from "./App";
+import Todo from "./Todo"
+import {TodoList} from "./TodoList"
 
 
-import {App} from "./App";
 
-test ("renders correct content", () => {
+const Button = ({ onClick, children }) => (
+  <button onClick={onClick}>{children}</button>
+)
 
-  //renders a react component to the DOM
-  const root = document.createElement("div");
-  ReactDOM.render(<App />, root);
+test('check strikethrough on click for list items', async() => {
 
-//Use DOM APIs ( Queryselector) to make assertions
-
-});
-
-
+const handleClick = jest.fn();
+const textsample = "potato";
+const compstatus = true;
+const{getByText}=render(<Todo onClick={handleClick} completed={compstatus} text={textsample} ></Todo>)
+expect(getByText("potato")).toHaveStyle('textDecoration: line-through')
+})
