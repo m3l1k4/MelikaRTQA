@@ -7,34 +7,11 @@ import { App } from "./App";
 import Todo from "./Todo"
 import { TodoList } from "./TodoList"
 
-// Simulating api
-const api = {
-  createItem: (url, newItem) => {
-    return Promise.resolve(newItem);
-  }
-};
 
-const mockCreateItem = (api.createItem = jest.fn());
-
-//async testing
-
-test('check strikethrough on click for list items', async () => {
- 
+test('check strikethrough on click for list items', () => {
   const handleClick = jest.fn();
   const textsample = "potato";
   const compstatus = true;
-
   const { getByText } = render(<Todo onClick={handleClick} completed={compstatus} text={textsample} ></Todo>)
-
-
+  expect(getByText("potato")).toHaveStyle('textDecoration: line-through')
 })
-
-//basic testing
-
-// test('check strikethrough on click for list items', () => {
-//   const handleClick = jest.fn();
-//   const textsample = "potato";
-//   const compstatus = true;
-//   const { getByText } = render(<Todo onClick={handleClick} completed={compstatus} text={textsample} ></Todo>)
-//   expect(getByText("potato")).toHaveStyle('textDecoration: line-through')
-// })
