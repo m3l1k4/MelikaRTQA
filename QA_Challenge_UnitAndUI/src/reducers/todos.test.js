@@ -1,9 +1,6 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
-import { getQueriesForElement } from "@testing-library/dom";
 import { render, fireEvent, waitFor, screen } from "@testing-library/react";
-import { toHaveStyle } from '@testing-library/jest-dom'
-
 import todos from "./todos"
 
 //each "todo" task can be in one of 2 possible states at any time. Either done or not done

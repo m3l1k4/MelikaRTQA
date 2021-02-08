@@ -1,11 +1,10 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
-import { getQueriesForElement } from "@testing-library/dom";
 import { render, fireEvent, waitFor, screen } from "@testing-library/react";
 import { toHaveStyle } from '@testing-library/jest-dom'
-import { App } from "./App";
+import  App  from "./App";
 import Todo from "./Todo"
-import { TodoList } from "./TodoList"
+
 
 //this component striks through text when clicked on
 
