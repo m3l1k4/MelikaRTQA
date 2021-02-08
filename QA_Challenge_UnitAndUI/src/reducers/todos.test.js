@@ -5,32 +5,38 @@ import { render, fireEvent, waitFor, screen } from "@testing-library/react";
 import { toHaveStyle } from '@testing-library/jest-dom'
 
 import todos from "./todos"
-import { bindActionCreators } from "redux";
 
+//each "todo" task can be in one of 2 possible states at any time. Either done or not done
+// We need to test the switch statement recognizes a task as "complete" or "not complete" based on that task's ID and user's action
+// We are going to test this with one task at a time, because that is how the todos reducer component is recieving commands
 
 describe("todo reducer", () => {
 
-    const actionTODO={ type: "ADD_TODO", id: 1, text: 'sampleA' };
-    const actionTOGGLE={ type: "TOGGLE_TODO", id: 1, text: 'sampleA' };
+    const test_id= 1;
+    const test_text = 'sampleA';
+    let test_compelete= false;
+    const actionTODO={ type: "ADD_TODO", id: test_id, text: test_text };
+    const actionTOGGLE={ type: "TOGGLE_TODO", id: test_id, text: test_text };
     const stateA = [2];
-    const state = [{id:1, text:'sampleA', completed:true}];
+    const state = [{id:test_id, text:test_text, completed:test_compelete}]
 
+    // the default state i.e. when there are no tasks on the list
     it("should return default", () => {
         expect(todos(0, 0)).toBe(0);
     });
 
+    // adding items to the list, they are by default not complete
     it("should return ADD_TODO", () => {
 
-        expect(todos(stateA, actionTODO)).toEqual([2,{ completed: false , id: 1, text: 'sampleA' }])
+        expect(todos(stateA, actionTODO)).toEqual([2,{ completed: test_compelete , id: test_id, text: test_text }])
     });
 
-    it("should return TOGGLE_TODO state false" ,() =>{
+    // crossing off items from the list
+    it("toggles task to completed" ,() =>{
 
-        expect(todos(state, actionTOGGLE)).toEqual([{id:1, text:'sampleA',completed:false}])
+        expect(todos(state, actionTOGGLE)).toEqual([{id:test_id, text:test_text,completed:!test_compelete}])
 
     })
-
-
 })
 
 

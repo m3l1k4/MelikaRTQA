@@ -7,6 +7,7 @@ import { App } from "./App";
 import Todo from "./Todo"
 import { TodoList } from "./TodoList"
 
+//this component striks through text when clicked on
 
 test('check strikethrough on click for list items', () => {
   const handleClick = jest.fn();
