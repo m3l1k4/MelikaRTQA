@@ -8,6 +8,7 @@
     "react-scripts": "^3.0.0"
   },
   "dependencies": {
+    "cypress": "^6.4.0",
     "jest-environment-jsdom-sixteen": "^1.0.3",
     "jsdom": "^16.4.0",
     "prop-types": "^15.7.2",
