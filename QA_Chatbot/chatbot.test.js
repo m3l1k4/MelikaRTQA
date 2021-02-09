@@ -6,24 +6,26 @@ const { compileFunction } = require('vm');
 const host = "https://us-central1-rival-chatbot-challenge.cloudfunctions.net";
 const request = supertest(host);
 
-$BASE_URL = "https://us-central1-rival-chatbot-challenge.cloudfunctions.net"
 let newUser = {
   name: "Jane Doe",
   email: "jane@doe.com"
 }
 
+let yesRes = {
+  content: "yes"
+}
+
+let noRes = {
+  content: "no"
+}
 
 state = {
   UserID: [],
   ConvoID: [],
-  response: []
+  BotResponse: []
 }
 
-
-let convo = {
-  content: "yes"
-}
-
+const itif = (condition) => condition ? it : it.skip;
 
 
 // This is a sample test to help you get started. You can remove it if you would like.
@@ -40,18 +42,18 @@ describe('sending user info', () => {
   it('should respond with userID', async () => {
     const response = await request
       .post("/challenge-register")
-      .send({
-        name: "Jane Doe",
-        email: "jane@doe.com"
-      })
+      .send(
+        newUser
+      )
       .then(data => {
         expect(data.text).toContain("user_id")
         state.UserID = data.body;
-        // console.log(data.body.user_id)
-        // console.log(state.UserID)
       })
   })
+
 })
+
+
 
 describe('sending user id', () => {
   it('should respond with convo id', async () => {
@@ -64,7 +66,7 @@ describe('sending user id', () => {
       .then(data => {
         expect(data.text).toContain("conversation_id")
         state.ConvoID = data.body.conversation_id;
-        console.log(data.body)
+        // console.log(data.body)
 
       })
   })
@@ -72,74 +74,57 @@ describe('sending user id', () => {
 
 
 describe('sending conversation ID', () => {
-  it('should respond with some statements', async () => {
+  // it('should respond with some statements', async () => {
+  //   const response = await request
+  //     .get("/challenge-behaviour/" + state.ConvoID)
+  //     .then(data => {
+  //       expect(data.text).toContain("?")
+  //       // console.log(data.text)
+
+  //     })
+  // })
+
+  ChatBotResponse(state.ConvoID)
+})
+
+function ChatBotResponse(conversationID){
+    it('should respond with some statements', async () => {
     const response = await request
-      .get("/challenge-behaviour/"+state.ConvoID)
+      .get("/challenge-behaviour/" + state.ConvoID)
       .then(data => {
         expect(data.text).toContain("?")
-        // state.ConvoID = data.body;
-        console.log(data.text)
+        // console.log(data.text)
 
       })
   })
-})
 
-// it('testing to sign up feature', async (done) => {
-//   const f = await request(app)
-//       .post('/signUp')
-//       .send({body:{a:1, b:3}});
-//   expect(JSON.parse(f.text)).toEqual({ message: 'user created successfully', status: 200 });
-//   done();
-// });
-// postUserInfo = () => {
+  return
+}
 
-//   axios.post(host + '/challenge-register', newUser)
-//       .then(response => {
-//       let userID = response.data
-//           PostConvoInfo(userID)
+// describe(' sending an answer', async () => {
+//   it('should respond with true or false', async () => {
+//     const response = await request
+//       .post("/challenge-behaviour/" + state.ConvoID)
+//       .send( yesRes)
+//       .then(data => {
+//         expect(data.text).toContain("correct")
+//         // console.log(data.body.correct)
+//         state.BotResponse=data.body.correct
+
 //       })
-//       .catch(error => {
-//           // console.log(error);
+//   })
+// })
+
+
+// describe(' sending an answer', async () => {
+//   itif(state.BotResponse==true)('should respond with true or false', async () => {
+//     const response = await request
+//       .post("/challenge-behaviour/" + state.ConvoID)
+//       .send( yesRes)
+//       .then(data => {
+//         expect(data)
+//         console.log(data.body)
+
 //       })
-// }
-
-
-
-// Request:
-
-// ```bash
-// curl --request POST \
-//   --url $BASE_URL/challenge-register \
-//   --header 'content-type: application/json' \
-//   --data '{
-//   "name": "Jane Doe",
-//   "email": "jane@doe.com"
-// }'
-// ```
-
-// Response:
-
-// ```json
-// {
-//   "user_id": "<YOUR USER ID>"
-// }
-// ```
-
-// describe('test post request', () => {
-//   it('should return strng', async () => {
-//     const response = await request.post('/challenge-register ',
-//       {
-//         name: "Jane Doe",
-//         comment: "jane@doe.com"
-//       })
-//       .then(response => {
-//         console.log(response)
-//       })
-//       .catch(error => {
-//         console.log(error);
-//       })
-
-
-//     expect(response.statusCode).toBe(302)
 //   })
 // })
