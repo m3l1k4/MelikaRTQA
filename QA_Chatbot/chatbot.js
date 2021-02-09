@@ -42,7 +42,7 @@ postUserInfo = () => {
             PostConvoInfo(userID)
         })
         .catch(error => {
-            console.log(error);
+            // console.log(error);
         })
 }
 
@@ -59,7 +59,7 @@ PostConvoInfo= (Uid) => {
            
         })
         .catch(error => {
-            console.log(error);
+            // console.log(error);
         })
 }
 
@@ -71,7 +71,7 @@ getConv = (Cid) => {
      postResponse(Cid);
     })
     .catch(error => {
-        console.log(error);
+        // console.log(error);
     })
 }
 
@@ -84,12 +84,16 @@ postResponse = (convoID) => {
     console.log(convoID, "convo id")
     axios.post(host + '/challenge-behaviour/'+ convoID, content)
         .then(response => {
-         console.log(response.data)
+         console.log(response.data.correct)
+
+        //  if (response.data.correct=true){
+        //      getConv(convoID)
+        //  }
            
         })
-        // .catch(error => {
-        //     console.log(error);
-        // })
+        .catch(error => {
+            // console.log(error);
+        })
 }
 
 postResponse();
