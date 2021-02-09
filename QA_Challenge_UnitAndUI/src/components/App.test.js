@@ -4,7 +4,7 @@ import {Provider} from 'react-redux';
 import { createStore } from 'redux';
 import rootReducer from '../reducers'
 import { render, fireEvent, waitFor, screen } from "@testing-library/react";
-import { toHaveStyle } from '@testing-library/jest-dom'
+import '@testing-library/jest-dom'
 import  App  from "./App";
 const store = createStore(rootReducer)
 const MyAppWithStore = () => (
@@ -13,7 +13,13 @@ const MyAppWithStore = () => (
     </Provider>
   );
 test('check render without crashing', () => {
-  const div = document.createElement('div');
- ReactDOM.render(<MyAppWithStore />, div);
-  ReactDOM.unmountComponentAtNode(div);
+
+    
+  render(<MyAppWithStore />);
+  const textElement = screen.getByText("Add Todo");
+  expect(textElement).toBeInTheDocument();
+
+//   const div = document.createElement('div');
+//  ReactDOM.render(<MyAppWithStore />, div);
+//   ReactDOM.unmountComponentAtNode(div);
 });
