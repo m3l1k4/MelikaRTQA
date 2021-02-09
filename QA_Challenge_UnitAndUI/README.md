@@ -18,7 +18,7 @@ then run: npm start
 then navigate to http://localhost:3000 in you web browser
 
 Challenge 1:
-a. Using Jest and React Testing Library, write unit tests for the "Todo" react component (inside the components folder) to ensure correct functionality.
+(done)a. Using Jest and React Testing Library, write unit tests for the "Todo" react component (inside the components folder) to ensure correct functionality.
 Jest and React Testing Library have been installed already so no setup is required.
 You can place this test file in the components folder.
 The naming convention should follow: Todo.test.js
@@ -27,9 +27,9 @@ https://testing-library.com/docs/react-testing-library/intro/
 
 You can run the tests using the following command in the terminal: npm test
 
-Once you are done, write unit tests for the App react component in a similar fashion.
+(done)Once you are done, write unit tests for the App react component in a similar fashion.
 
-b. Using Jest, write unit tests for the "todos" reducer (inside the reducers folder) to ensure correct functionality
+(done) b. Using Jest, write unit tests for the "todos" reducer (inside the reducers folder) to ensure correct functionality
 Note that Jest is already installed so you don't need to install it.
 You can place this test file in the reducers folder.
 The naming convention should follow: todos.test.js
