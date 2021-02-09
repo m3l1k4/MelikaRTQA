@@ -13,6 +13,12 @@ let newUser = {
 }
 
 
+state = {
+  UserID: [],
+  ConvoID: [],
+  response: []
+}
+
 
 let convo = {
   content: "yes"
@@ -31,7 +37,7 @@ describe('Test the root path', () => {
 });
 
 describe('sending user info', () => {
-  it('should response with userID', async () => {
+  it('should respond with userID', async () => {
     const response = await request
       .post("/challenge-register")
       .send({
@@ -39,11 +45,31 @@ describe('sending user info', () => {
         email: "jane@doe.com"
       })
       .then(data => {
-        expect(data)
-        console.log(data.text)
+        expect(data.text).toContain("user_id")
+        state.UserID=data.body;
+        // console.log(data.body.user_id)
+        // console.log(state.UserID)
+      })
+  })
+})
+
+describe('sending user id', () =>{
+  it('should respond with convo id', async() =>{
+
+    const response = await request
+      .post("/challenge-conversation")
+      .send(
+      state.UserID
+      )
+      .then(data => {
+        expect(data.text).toContain("conversation_id")
+         state.ConvoID=data.body;
+         console.log(data.body)
+       
       })
 
-    // expect(response).toContain("user_id") 
+
+
   })
 })
 
