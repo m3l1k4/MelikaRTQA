@@ -9,9 +9,11 @@ const request = supertest(host);
 
 
 let newUser = {
-    name: "Melika Salehi",
-    email: "melika@salehi.com"
+    name: "Jane Doe",
+    email: "jane@doe.com"
 }
+
+
 
 let convo = {
     content: "yes"
@@ -44,7 +46,7 @@ postUserInfo = () => {
         })
 }
 
-postUserInfo();
+ postUserInfo();
 
 
 PostConvoInfo= (Uid) => {
@@ -68,19 +70,26 @@ getConv = (Cid) => {
         console.log(response.data);
      postResponse(Cid);
     })
-    // .catch(error => {
-    //     console.log(error);
-    // })
+    .catch(error => {
+        console.log(error);
+    })
 }
 
-postResponse = (Cid) => {
-    console.log(Cid, "convo id")
-    axios.post(host + '/challenge-behaviour/'+ Cid, "yes")
+postResponse = (convoID) => {
+
+    // const convoID='5742897156587520';
+    const content = {
+        "content": "yes"
+      }
+    console.log(convoID, "convo id")
+    axios.post(host + '/challenge-behaviour/'+ convoID, content)
         .then(response => {
-         console.log(response)
+         console.log(response.data)
            
         })
         // .catch(error => {
         //     console.log(error);
         // })
 }
+
+postResponse();
