@@ -9,8 +9,12 @@ const request = supertest(host);
 
 
 let newUser = {
-    name: "Jane Doe",
-    email: "jane@doe.com"
+    name: "Melika Salehi",
+    email: "melika@salehi.com"
+}
+
+let convo = {
+    content: "yes"
 }
 
 
@@ -61,9 +65,22 @@ getConv = (Cid) => {
 
     axios.get(host + '/challenge-behaviour/'+ Cid)
     .then(response => {
-        console.log(response.data)
+        console.log(response.data);
+     postResponse(Cid);
     })
-    .catch(error => {
-        console.log(error);
-    })
+    // .catch(error => {
+    //     console.log(error);
+    // })
+}
+
+postResponse = (Cid) => {
+    console.log(Cid, "convo id")
+    axios.post(host + '/challenge-behaviour/'+ Cid, "yes")
+        .then(response => {
+         console.log(response)
+           
+        })
+        // .catch(error => {
+        //     console.log(error);
+        // })
 }
