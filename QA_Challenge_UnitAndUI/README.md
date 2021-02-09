@@ -23,7 +23,7 @@ Jest and React Testing Library have been installed already so no setup is requir
 You can place this test file in the components folder.
 The naming convention should follow: Todo.test.js
 You can find some information on how to get started below:
-https://testing-library.com/docs/react-testing-library/intro/
+https://testing-library.com/docs/react-testing-library/intro/ 
 
 You can run the tests using the following command in the terminal: npm test
 
