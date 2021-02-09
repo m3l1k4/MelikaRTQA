@@ -48,9 +48,22 @@ PostConvoInfo= (Uid) => {
     console.log(Uid, "usr id")
     axios.post(host + '/challenge-conversation', Uid)
         .then(response => {
-            let convID=response.data
+            let convID=response.data.conversation_id
+             getConv(convID)
+           
         })
         .catch(error => {
             console.log(error);
         })
+}
+
+getConv = (Cid) => {
+
+    axios.get(host + '/challenge-behaviour/'+ Cid)
+    .then(response => {
+        console.log(response.data)
+    })
+    .catch(error => {
+        console.log(error);
+    })
 }
