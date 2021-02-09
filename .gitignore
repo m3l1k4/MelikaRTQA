@@ -1,6 +1,5 @@
-#vscode
-vscode
-.vscode/
+.vscode
+.DS_Store
 
 
 # Logs
