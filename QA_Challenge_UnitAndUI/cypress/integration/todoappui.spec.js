@@ -5,8 +5,13 @@ it('should', () => {
 it('should', ()=>{
     
     cy.visit('/')
-    // cy.get('.App-link')//select by class
-    // cy.contains('Learn React')
     cy.get('input').type('Hello, World')
     cy.get('form').submit()
+    cy.get('input').type('potato')
+    cy.get('form').submit()
+
+    cy.get('li').contains('Hello').click()
+    cy.get('button').contains('Active').click()
+    cy.get('button').contains('All').click()
+    cy.get('button').contains('Completed').click()
 })
