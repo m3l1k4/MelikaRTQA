@@ -46,33 +46,43 @@ describe('sending user info', () => {
       })
       .then(data => {
         expect(data.text).toContain("user_id")
-        state.UserID=data.body;
+        state.UserID = data.body;
         // console.log(data.body.user_id)
         // console.log(state.UserID)
       })
   })
 })
 
-describe('sending user id', () =>{
-  it('should respond with convo id', async() =>{
+describe('sending user id', () => {
+  it('should respond with convo id', async () => {
 
     const response = await request
       .post("/challenge-conversation")
       .send(
-      state.UserID
+        state.UserID
       )
       .then(data => {
         expect(data.text).toContain("conversation_id")
-         state.ConvoID=data.body;
-         console.log(data.body)
-       
+        state.ConvoID = data.body.conversation_id;
+        console.log(data.body)
+
       })
-
-
-
   })
 })
 
+
+describe('sending conversation ID', () => {
+  it('should respond with some statements', async () => {
+    const response = await request
+      .get("/challenge-behaviour/"+state.ConvoID)
+      .then(data => {
+        expect(data.text).toContain("?")
+        // state.ConvoID = data.body;
+        console.log(data.text)
+
+      })
+  })
+})
 
 // it('testing to sign up feature', async (done) => {
 //   const f = await request(app)
