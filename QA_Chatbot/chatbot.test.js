@@ -74,18 +74,24 @@ describe('sending user id', () => {
 
 
 describe('sending conversation ID', () => {
-  // it('should respond with some statements', async () => {
-  //   const response = await request
-  //     .get("/challenge-behaviour/" + state.ConvoID)
-  //     .then(data => {
-  //       expect(data.text).toContain("?")
-  //       // console.log(data.text)
-
-  //     })
-  // })
-
   ChatBotResponse(state.ConvoID)
 })
+
+describe(' sending first answer', async () => {
+  sendingAnswertoBot(yesRes)
+})
+
+describe(' sending an answer', async () => {
+  if(state.BotResponse){
+    ChatBotResponse(state.ConvoID)
+  }
+
+  else{
+    sendingAnswertoBot(noRes)
+  }
+
+})
+
 
 function ChatBotResponse(conversationID){
     it('should respond with some statements', async () => {
@@ -101,30 +107,19 @@ function ChatBotResponse(conversationID){
   return
 }
 
-// describe(' sending an answer', async () => {
-//   it('should respond with true or false', async () => {
-//     const response = await request
-//       .post("/challenge-behaviour/" + state.ConvoID)
-//       .send( yesRes)
-//       .then(data => {
-//         expect(data.text).toContain("correct")
-//         // console.log(data.body.correct)
-//         state.BotResponse=data.body.correct
+function sendingAnswertoBot(myAnswer){
+    it('should respond with true or false', async () => {
+    const response = await request
+      .post("/challenge-behaviour/" + state.ConvoID)
+      .send( myAnswer)
+      .then(data => {
+        expect(data.text).toContain("correct")
+        console.log(data.body.correct)
+        state.BotResponse=data.body.correct
+        console.log(typeof state.BotResponse)
+      })
+  })
+  return
+}
 
-//       })
-//   })
-// })
 
-
-// describe(' sending an answer', async () => {
-//   itif(state.BotResponse==true)('should respond with true or false', async () => {
-//     const response = await request
-//       .post("/challenge-behaviour/" + state.ConvoID)
-//       .send( yesRes)
-//       .then(data => {
-//         expect(data)
-//         console.log(data.body)
-
-//       })
-//   })
-// })
