@@ -18,8 +18,4 @@ test('check render without crashing', () => {
   render(<MyAppWithStore />);
   const textElement = screen.getByText("Add Todo");
   expect(textElement).toBeInTheDocument();
-
-//   const div = document.createElement('div');
-//  ReactDOM.render(<MyAppWithStore />, div);
-//   ReactDOM.unmountComponentAtNode(div);
 });
