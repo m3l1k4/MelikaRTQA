@@ -1,26 +1,31 @@
 https = require('https');
-
 const supertest = require("supertest");
 const { compileFunction } = require('vm');
-
 const host = "https://us-central1-rival-chatbot-challenge.cloudfunctions.net";
 const request = supertest(host);
+
+//set number of times for test to run
+const runThisManyTimes = 10;
 
 let newUser = {
   name: "Jane Doe",
   email: "jane@doe.com"
 }
-//   "user_id": "5629499534213120"
+// for reference 
+//  "user_id": "5629499534213120"
 //  "conversation_id": "5720843724259328"
-const UserResponse = [{content:""},{ content: "yes" }, { content: "no" }, { content: "19" }, { content: "84" },
+
+//There is a finite amount of correct response with chat bot
+const UserResponse = [{ content: "yes" }, { content: "yes" }, { content: "no" }, { content: "19" }, { content: "84" },
 { content: "potato, to, five, javascript, week" },
 { content: "coffee, cola, juice, milk, tea, water" },
 { content: "Array, class,Date, for, function, Object, switch" },
-{ content: "Montreal Canadiens" }
+{ content: "Montreal Canadiens" },
+{ content: "Detroit Tigers" }
 ]
 
 
-
+//states let us keep track of the ID's and responses
 state = {
   UserID: [],
   ConvoID: [],
@@ -41,6 +46,7 @@ describe('Test the root path', () => {
   })
 });
 
+//sends user info over and gets the generated user id
 describe('sending user info', () => {
   it('should respond with userID', async () => {
     const response = await request
@@ -56,6 +62,7 @@ describe('sending user info', () => {
 
 })
 
+//sends the generated user id over and gets a convo id
 describe('sending user id', () => {
   it('should respond with convo id', async () => {
 
@@ -75,24 +82,24 @@ describe('sending user id', () => {
 
 
 
-describe(' sending first answer', () => {
+describe(' sending user answer', () => {
 
-  function sendingCid(inNum) {
-    it('should respond with some statements', async () => {
+  //gets resppnse from bot
+  function sendingCid() {
+    it('should respond with some statements and/or questions', async () => {
       const response = await request
         .get("/challenge-behaviour/" + state.ConvoID)
         .then(data => {
           expect(data.text).toContain("a")
           state.BotQuestion = data.text;
-          console.log(data.text)
-          console.log(inNum, "index")
+          // console.log(data.text)
           // console.log(data.body)
 
         })
     })
-    return
   }
 
+  //sends over user answer
   function sendingYN(myAnswer) {
     it('should respond with true or false', async () => {
       const response = await request
@@ -105,40 +112,46 @@ describe(' sending first answer', () => {
     })
   }
 
-  if (state.BotResponse) { console.log("potato") }
+  //here we send in random user answers, since each bot response has only one correct answer, we can use
+  //the existing array of answers and send them randomly
+  //similar as to users that type random stuff in  bot chats
+  //if the answer to the current question is correct, it moves on to the next question
   let condition = 0
   while (true) {
 
-
-    // function getRandomInt(min, max) {
-    //   min = Math.ceil(min);
-    //   max = Math.floor(max);
-    //   return Math.floor(Math.random() * (max - min)) + min; //The maximum is exclusive and the minimum is inclusive
-    // }
-
-    // let arrayindext=Math.floor(Math.random() * (UserResponse.length-1))+1;
-     let arrayindext = rand(1, UserResponse.length - 1)
-    sendingCid(arrayindext);
-    // console.log(state.BotQuestion)
-    sendingYN(UserResponse[arrayindext]);
-    // console.log(arrayindext, 'index: ')
-    
+    //gets a random number for the index
+    let arrayindext = getRandomInt(0, UserResponse.length)
     sendingCid();
-    // let str = state.BotQuestion
-    // let condition = str.includes("baseball", 1);
-    if (condition > 10) {
+    sendingYN(UserResponse[arrayindext]);
+    sendingCid();
+
+    //the stop condition can also be changed to if the response contains" Thank you"
+    // I tried doing it but your API locked me out for 30 seconds at a time because it is too many requests baing sent
+    // back to back at once
+    // I didn't want it to charge you extra
+    if (condition > runThisManyTimes) {
       break;
     }
 
-    else{
-    condition++;}
+    else {
+      condition++;
+    }
   }
 
 
 })
 
-function rand(min, max) {
-  return Math.floor((Math.random() * max) + min);
+//random int generator
+function getRandomInt(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  randindex = Math.floor(Math.random() * (max - min)) + min;
+
+  if (randindex >= 0 && randindex < UserResponse.length)
+    return randindex
+
+  else if (randindex < 0 || randindex == undefined || randindex >= UserResponse.length)
+    return 1
 }
 
 
