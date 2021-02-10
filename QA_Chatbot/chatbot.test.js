@@ -10,19 +10,22 @@ let newUser = {
   name: "Jane Doe",
   email: "jane@doe.com"
 }
+//   "user_id": "5629499534213120"
+//  "conversation_id": "5720843724259328"
+const UserResponse = [{content: "yes"}, {content: "no"}, {content: "19"}, {content: "84"},
+{content: "potato, to, five, javascript, week"},
+{content: "coffee, cola, juice, milk, tea, water"},
+{content: "Array, class,Date, for, function, Object, switch"},
+{content: "Montreal Canadiens"}
+]
 
-let yesRes = {
-  content: "yes"
-}
 
-let noRes = {
-  content: "no"
-}
 
 state = {
   UserID: [],
   ConvoID: [],
-  BotResponse: []
+  BotResponse: [true],
+  BotQuestion:[]
 }
 
 const itif = (condition) => condition ? it : it.skip;
@@ -53,8 +56,6 @@ describe('sending user info', () => {
 
 })
 
-
-
 describe('sending user id', () => {
   it('should respond with convo id', async () => {
 
@@ -73,53 +74,47 @@ describe('sending user id', () => {
 })
 
 
-describe('sending conversation ID', () => {
-  ChatBotResponse(state.ConvoID)
-})
 
-describe(' sending first answer', async () => {
-  sendingAnswertoBot(yesRes)
-})
+describe(' sending first answer', () => {
 
-describe(' sending an answer', async () => {
-  if(state.BotResponse){
-    ChatBotResponse(state.ConvoID)
-  }
-
-  else{
-    sendingAnswertoBot(noRes)
-  }
-
-})
-
-
-function ChatBotResponse(conversationID){
+  function sendingCid() {
     it('should respond with some statements', async () => {
-    const response = await request
-      .get("/challenge-behaviour/" + state.ConvoID)
-      .then(data => {
-        expect(data.text).toContain("?")
-        // console.log(data.text)
+      const response = await request
+        .get("/challenge-behaviour/" + state.ConvoID)
+        .then(data => {
+          expect(data.text).toContain("?")
+          state.BotQuestion=data.text;
+          console.log(data)
+          // console.log(data.body)
+  
+        })
+    })
+  }
 
-      })
-  })
-
-  return
-}
-
-function sendingAnswertoBot(myAnswer){
+  function sendingYN(myAnswer){
     it('should respond with true or false', async () => {
-    const response = await request
-      .post("/challenge-behaviour/" + state.ConvoID)
-      .send( myAnswer)
-      .then(data => {
-        expect(data.text).toContain("correct")
-        console.log(data.body.correct)
-        state.BotResponse=data.body.correct
-        console.log(typeof state.BotResponse)
-      })
-  })
-  return
-}
+      const response = await request
+        .post("/challenge-behaviour/" + state.ConvoID)
+        .send(myAnswer)
+        .then(data => {
+          expect(data.text).toContain("correct")
+          state.BotResponse = data.body.correct
+        })
+    })
+  }
 
+ if(state.BotResponse){console.log("potato")} 
+
+//  while(true){
+  sendingCid();
+  sendingYN(UserResponse[Math.floor(Math.random()*UserResponse.length)]);
+  sendingCid();
+
+//   if(state.BotQuestion.incl){
+//     break;
+//   }
+//  }
+
+
+})
 
