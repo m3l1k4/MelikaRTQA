@@ -12,11 +12,11 @@ let newUser = {
 }
 //   "user_id": "5629499534213120"
 //  "conversation_id": "5720843724259328"
-const UserResponse = [{content: "yes"}, {content: "no"}, {content: "19"}, {content: "84"},
-{content: "potato, to, five, javascript, week"},
-{content: "coffee, cola, juice, milk, tea, water"},
-{content: "Array, class,Date, for, function, Object, switch"},
-{content: "Montreal Canadiens"}
+const UserResponse = [{ content: "yes" }, { content: "no" }, { content: "19" }, { content: "84" },
+{ content: "potato, to, five, javascript, week" },
+{ content: "coffee, cola, juice, milk, tea, water" },
+{ content: "Array, class,Date, for, function, Object, switch" },
+{ content: "Montreal Canadiens" }
 ]
 
 
@@ -25,7 +25,7 @@ state = {
   UserID: [],
   ConvoID: [],
   BotResponse: [true],
-  BotQuestion:[]
+  BotQuestion: []
 }
 
 const itif = (condition) => condition ? it : it.skip;
@@ -82,16 +82,16 @@ describe(' sending first answer', () => {
       const response = await request
         .get("/challenge-behaviour/" + state.ConvoID)
         .then(data => {
-          expect(data.text).toContain("?")
-          state.BotQuestion=data.text;
-          console.log(data)
+          expect(data.text)
+          state.BotQuestion = data.text;
+          console.log(data.text)
           // console.log(data.body)
-  
+
         })
     })
   }
 
-  function sendingYN(myAnswer){
+  function sendingYN(myAnswer) {
     it('should respond with true or false', async () => {
       const response = await request
         .post("/challenge-behaviour/" + state.ConvoID)
@@ -103,17 +103,24 @@ describe(' sending first answer', () => {
     })
   }
 
- if(state.BotResponse){console.log("potato")} 
+  if (state.BotResponse) { console.log("potato") }
+  let condition = 0
+  while (true) {
+    
+    sendingCid();
+    sendingYN(UserResponse[Math.floor(Math.random() * UserResponse.length)]);
+    sendingCid();
+    sendingYN(UserResponse[Math.floor(Math.random() * UserResponse.length)]);
+    
+    // let str = state.BotQuestion
+    // let condition = str.includes("baseball", 1);
+    if (condition > 10) {
+      break;
+    }
 
-//  while(true){
-  sendingCid();
-  sendingYN(UserResponse[Math.floor(Math.random()*UserResponse.length)]);
-  sendingCid();
-
-//   if(state.BotQuestion.incl){
-//     break;
-//   }
-//  }
+    else{
+    condition++;}
+  }
 
 
 })
