@@ -12,7 +12,7 @@ let newUser = {
 }
 //   "user_id": "5629499534213120"
 //  "conversation_id": "5720843724259328"
-const UserResponse = [{ content: "yes" }, { content: "no" }, { content: "19" }, { content: "84" },
+const UserResponse = [{content:""},{ content: "yes" }, { content: "no" }, { content: "19" }, { content: "84" },
 { content: "potato, to, five, javascript, week" },
 { content: "coffee, cola, juice, milk, tea, water" },
 { content: "Array, class,Date, for, function, Object, switch" },
@@ -77,18 +77,20 @@ describe('sending user id', () => {
 
 describe(' sending first answer', () => {
 
-  function sendingCid() {
+  function sendingCid(inNum) {
     it('should respond with some statements', async () => {
       const response = await request
         .get("/challenge-behaviour/" + state.ConvoID)
         .then(data => {
-          expect(data.text)
+          expect(data.text).toContain("a")
           state.BotQuestion = data.text;
           console.log(data.text)
+          console.log(inNum, "index")
           // console.log(data.body)
 
         })
     })
+    return
   }
 
   function sendingYN(myAnswer) {
@@ -106,12 +108,22 @@ describe(' sending first answer', () => {
   if (state.BotResponse) { console.log("potato") }
   let condition = 0
   while (true) {
+
+
+    // function getRandomInt(min, max) {
+    //   min = Math.ceil(min);
+    //   max = Math.floor(max);
+    //   return Math.floor(Math.random() * (max - min)) + min; //The maximum is exclusive and the minimum is inclusive
+    // }
+
+    // let arrayindext=Math.floor(Math.random() * (UserResponse.length-1))+1;
+     let arrayindext = rand(1, UserResponse.length - 1)
+    sendingCid(arrayindext);
+    // console.log(state.BotQuestion)
+    sendingYN(UserResponse[arrayindext]);
+    // console.log(arrayindext, 'index: ')
     
     sendingCid();
-    sendingYN(UserResponse[Math.floor(Math.random() * UserResponse.length)]);
-    sendingCid();
-    sendingYN(UserResponse[Math.floor(Math.random() * UserResponse.length)]);
-    
     // let str = state.BotQuestion
     // let condition = str.includes("baseball", 1);
     if (condition > 10) {
@@ -124,4 +136,9 @@ describe(' sending first answer', () => {
 
 
 })
+
+function rand(min, max) {
+  return Math.floor((Math.random() * max) + min);
+}
+
 
