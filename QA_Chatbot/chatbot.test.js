@@ -74,7 +74,6 @@ describe('sending user id', () => {
       .then(data => {
         expect(data.text).toContain("conversation_id")
         state.ConvoID = data.body.conversation_id;
-        // console.log(data.body)
 
       })
   })
@@ -92,9 +91,6 @@ describe(' sending user answer', () => {
         .then(data => {
           expect(data.text).toContain("a")
           state.BotQuestion = data.text;
-          // console.log(data.text)
-          // console.log(data.body)
-
         })
     })
   }
@@ -126,9 +122,9 @@ describe(' sending user answer', () => {
     sendingCid();
 
     //the stop condition can also be changed to if the response contains" Thank you"
-    // I tried doing it but your API locked me out for 30 seconds at a time because it is too many requests baing sent
+    // I tried doing it but your cloud provider API locked me out for 30 seconds at a time because it is too many requests baing sent
     // back to back at once
-    // I didn't want it to charge you extra
+  
     if (condition > runThisManyTimes) {
       break;
     }
